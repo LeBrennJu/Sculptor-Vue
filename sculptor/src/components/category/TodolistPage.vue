@@ -79,6 +79,7 @@ export default {
             tachesArchives: null,
             delPic: del,
             user: sessionStorage.getItem('user'),
+            userId: sessionStorage.getItem('userId'),
             archiveTab: [],
             gestionTache: 1,
             validatePic: valid
@@ -102,7 +103,7 @@ export default {
                 if(response.code===200){
                 console.log("Insertion réussi");
                 }
-                this.taches = await ActivityService.findAllActive(this.user);
+                this.taches = await ActivityService.findAllActive(this.userId);
             }
         },
         async modifProgression(e){   
@@ -112,7 +113,7 @@ export default {
                     "content": e.currentTarget.value,
                     "id": e.currentTarget.name
                 });     
-                this.taches = await ActivityService.findAllActive(this.user);
+                this.taches = await ActivityService.findAllActive(this.userId);
         },
         async delObjectif(e){
              const response = await ActivityService.del({
@@ -125,7 +126,7 @@ export default {
                     "progression": 8,
                     "id": e.currentTarget.classList[1]
                 });
-                this.tachesArchives= await ActivityService.findAllArchive(this.user);
+                this.tachesArchives= await ActivityService.findAllArchive(this.userId);
 
         },
         async activeObjectif(e){
@@ -135,57 +136,64 @@ export default {
                     "progression": 7,
                     "id": e.currentTarget.classList[1]
                 });
-                this.taches = await ActivityService.findAllActive(this.user);
+                this.taches = await ActivityService.findAllActive(this.userId);
 
         },
         async routerTache(e){
             const menuArchive=document.getElementsByClassName("menuTache 1")
             const menuComplete=document.getElementsByClassName("menuTache 2")
             const menuToutes=document.getElementsByClassName("menuTache 0")
-            console.log(menuArchive[0].classList)
+            console.log(e.currentTarget.textContent=="Archivée")
+            console.log(e.currentTarget.textContent=="Toutes")
+            console.log(e.currentTarget.textContent=="Complétée")
+            console.log(e.currentTarget.textContent)
             if(e.currentTarget.textContent=="Archivée"){
                 e.currentTarget.classList.toggle("menuActive")
-                
-                menuComplete[0].classList.remove("menuActive")
-               
-                menuToutes[0].classList.remove("menuActive")
-                 console.log("ici")
-
-                this.tachesArchives= await ActivityService.findAllArchive(this.user);
+                if(menuComplete[0].classList[2]=="menuActive"){
+                    console.log("iciBro")
+                    menuComplete[0].classList.remove("menuActive")                    
+                }
+                if(menuToutes[0].classList[2]=="menuActive"){
+                    menuToutes[0].classList.remove("menuActive")
+                }
+                this.tachesArchives= await ActivityService.findAllArchive(this.userId);
             }
             if(e.currentTarget.textContent=="Complétée"){
-
                 e.currentTarget.classList.toggle("menuActive")
 
-                menuArchive[0].classList.remove("menuActive")
-                menuToutes[0].classList.remove("menuActive")
-
-                this.tachesArchives= await ActivityService.findAllComplete(this.user);
+                if(menuArchive[0].classList[2]=="menuActive"){
+                    menuArchive[0].classList.remove("menuActive")
+                }
+                if(menuToutes[0].classList[2]=="menuActive"){
+                    menuToutes[0].classList.remove("menuActive")
+                }
+                this.tachesArchives= await ActivityService.findAllComplete(this.userId);
             }
             if(e.currentTarget.textContent=="Toutes"){
-
                 e.currentTarget.classList.toggle("menuActive")
 
-                menuArchive[0].classList.remove("menuActive")
-                menuComplete[0].classList.remove("menuActive")
-
-                this.tachesArchives= await ActivityService.findAll(this.user);
+                if(menuArchive[0].classList[2]=="menuActive"){
+                    menuArchive[0].classList.remove("menuActive")
+                }
+                if(menuComplete[0].classList[2]=="menuActive"){
+                    menuComplete[0].classList.remove("menuActive")
+                }
+                this.tachesArchives= await ActivityService.findAll(this.userId);
             }
         },
         async valideObjectif(e){
-            console.log("coucouValide")
             e.currentTarget.closest(".bis").classList.add("archive")
             const response = await ActivityService.patch({
                     "progression": 9,
                     "id": e.currentTarget.classList[1]
                 });
-                this.tachesArchives= await ActivityService.findAllArchive(this.user);
+                this.tachesArchives= await ActivityService.findAllArchive(this.userId);
         }
     },
     async mounted(){
     //Contient le code excuté avant que le composant soit "mounted" https://vuejs.org/assets/lifecycle.16e4c08e.png
     console.log("mounted")
-   this.taches = await ActivityService.findAllActive(this.user);
+   this.taches = await ActivityService.findAllActive(this.userId);
    
 
   }

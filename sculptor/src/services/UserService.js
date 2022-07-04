@@ -34,7 +34,8 @@ export default {
     async login(params) {
         try {
             const response = await apiClient.post('/jwt-auth/v1/token', params);
-            return response.data
+            console.log(response.data)
+            return response.data           
         } catch(error) {
             return error.response.data
         }

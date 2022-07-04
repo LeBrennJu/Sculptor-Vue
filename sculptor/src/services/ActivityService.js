@@ -14,20 +14,19 @@ const apiClient = axios.create({
 
 export default {
     /*--------------------TACHES------------------*/ 
-    async findAll(user) {
+    async findAll(userId) {
         try {
-            console.log(user)
-            const response = await apiClient.get("/wp/v2/tache?author_name="+user+"");
-            console.log("/wp/v2/tache?progression=8&&author_name="+user+"")
+            const response = await apiClient.get("/wp/v2/tache?author="+userId+"");
+            console.log("/wp/v2/tache?author="+userId+"")
             return response.data;
         } catch(error) {
             return error.response.data
         }
         
     },
-    async findAllActive(user) {
+    async findAllActive(userId) {
         try {
-            const response = await apiClient.get("/wp/v2/tache?progression=7&&author_name="+user+"");
+            const response = await apiClient.get("/wp/v2/tache?progression=7&&author="+userId+"");
             console.log(response)
             return response.data;
         } catch(error) {
@@ -35,19 +34,19 @@ export default {
         }
         
     },
-    async findAllArchive(user) {
+    async findAllArchive(userId) {
         try {
-            const response = await apiClient.get("/wp/v2/tache?progression=8&&author_name="+user+"");
-            console.log(response)
+            const response = await apiClient.get("/wp/v2/tache?progression=8&&author="+userId+"");
+            
             return response.data;
         } catch(error) {
             return error.response.data
         }
         
     },
-    async findAllComplete(user) {
+    async findAllComplete(userId) {
         try {
-            const response = await apiClient.get("/wp/v2/tache?progression=9&&author_name="+user+"");
+            const response = await apiClient.get("/wp/v2/tache?progression=9&&author="+userId+"");
             console.log(response)
             return response.data;
         } catch(error) {
