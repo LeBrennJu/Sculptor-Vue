@@ -39,5 +39,15 @@ export default {
         } catch(error) {
             return error.response.data
         }
-        }
+    },
+    async patch(params) {
+        try {
+            // On passe le token de connexion
+            apiClient.defaults.headers.common['Authorization'] = 'Bearer ' + sessionStorage.getItem('token') + '';
+            const response = await apiClient.post("/wp/v2/users/"+ params.id+ "", params);
+            return response.data;
+        } catch(error) {
+            return error.response.data
+        }        
+    },
 }

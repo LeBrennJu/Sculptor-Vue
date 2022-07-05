@@ -51,6 +51,7 @@ export default {
                     sessionStorage.setItem("user", this.pseudo);
                     sessionStorage.setItem("email", response.data.email);
                     sessionStorage.setItem("userId", response.data.id);
+                    sessionStorage.setItem("userPic", response.data.firstName);
                     console.log(response.data);
                     console.log(response.data.id);
                     // On fait une redirection
@@ -66,5 +67,19 @@ export default {
 </script>
 
 <style>
-
+.login-content{
+     text-align: center;
+    border: 1px solid black;
+    padding: 1%;
+    width: fit-content;
+    margin: auto;
+    background-color: #fff7e1bf;
+    margin-top: 2%;
+    border-radius: 6px;
+}
+.login-content input{
+    font-weight: bold;
+    border: unset;
+    border-radius: 8px;
+}
 </style>

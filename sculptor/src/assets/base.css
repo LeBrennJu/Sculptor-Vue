@@ -22,6 +22,7 @@ time, mark, audio, video {
 	font-size: 100%;
 	font: inherit;
 	vertical-align: baseline;
+  height: inherit;
 }
 /* HTML5 display-role reset for older browsers */
 article, aside, details, figcaption, figure, 
@@ -53,7 +54,7 @@ a{
 /*------------------------CSS LAYOUT---------------------------*/
 html, main {
   margin: 0px;
-  height: 100%;
+  height:auto;
   width: 100%;
 }
 
@@ -78,6 +79,7 @@ header{
     height: 10%;
     align-items: center;
     padding: 1%;
+    height: auto;
 }
 header input{
   border-radius: 50%!important;
@@ -133,6 +135,7 @@ header p{
   font-style: italic;
   padding-top: 1%;
   color: honeydew;
+  height: auto;
 }
 strong{
   font-weight: bold;
@@ -220,4 +223,18 @@ padding: 14%;
   body{    
     background-size: 120%;
   }
+  .profilFirst{
+    width: 32%;
+  }
+  .profilSecond{
+    width: 60%;
+  }
 }
+  @media (max-width: 640px) { 
+    .profilThree{
+      width: 32%;
+    }
+    .profilSecond{
+      width: 100%;
+    }
+  }

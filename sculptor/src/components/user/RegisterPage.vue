@@ -1,5 +1,5 @@
    <template>
-        <section class="login-content">
+        <section class="register-content">
 
             <h1>Créer un compte</h1>
 
@@ -8,11 +8,6 @@
                     <p class="error" v-for="error in errors" v-bind:key="error">{{error}}</p>
                     <p class="confirm" v-for="conf in confirm" v-bind:key="conf">{{conf}}</p>
                 </div>
-                <div>Prénom</div>
-                <input type="text" name="firstname" v-model="firstname" placeholder="John">
-
-                <div>Nom</div>
-                <input type="text" name="lastname" v-model="lastname" placeholder="Doe">
 
                 <div>E-mail</div>
                 <input type="email" name="email" v-model="email" placeholder="johndoe@ocooking.local">
@@ -25,6 +20,20 @@
 
                 <div>Confirmation du mot de passe</div>
                 <input type="password" name="confPassword" v-model="confPassword" placeholder="">
+              
+
+                <fieldset>
+                    <div>
+                    <input v-model="imgProfilGars" type="checkbox" id="homme" name="homme" >
+                    <label for="homme"><a class="registerPic"  href=""><img class="homme" v-bind:src="hommePic" ></a></label>
+                    </div>
+
+                    <div>
+                    <input v-model="imgProfilFille" type="checkbox" id="femme" name="femme">
+                    <label for="femme">  <a class="registerPic"  href=""><img class="femme" v-bind:src="femmePic" ></a></label>
+                    </div>
+                </fieldset>
+                
                 
                 
                 <button v-on:click="sendForm" type="submit">S'inscrire</button>
@@ -33,6 +42,8 @@
    </template>
 
 <script>
+import men from "@/assets/images/homme.jpg"
+import girl from "@/assets/images/femme.jpg"
 import UserService from "@/services/UserService";
 export default {
     name: "RegisterPage",
@@ -41,27 +52,32 @@ export default {
             confirm: [],
             errors: [],
             email: null,
-            firstname: null,
-            lastname: null,
             pseudo: null,
             password: null,
             confPassword: null,
-            role: "contributeur"
+            hommePic: men,
+            femmePic: girl,
+            imgProfilGars: null,
+            imgProfilFille: null,
+            finalPic: null
         }
     },
     methods: {
-        async sendForm() {
+        async sendForm(e) {
             this.confirm = [];
             this.errors = [];
+            
+            if(this.imgProfilFille==true){
+                console.log("fille")
+                this.finalPic="femme"
+            }
+            if(this.imgProfilGars==true){
+                console.log("garcon")
+                this.finalPic="homme"
+            }
             // Validation du contenu du formulaire
             if(!this.email) {
                 this.errors.push("Email cannot be empty");
-            }
-            if(!this.firstname) {
-                this.errors.push("Firstname cannot be empty");
-            }
-            if(!this.lastname) {
-                this.errors.push("Lastname cannot be empty");
             }
             if(!this.pseudo) {
                 this.errors.push("Pseudo cannot be empty");
@@ -79,17 +95,50 @@ export default {
                     "pseudo": this.pseudo,
                     "email": this.email,
                     "password": this.password,
-                    "role": this.role,
-                    "firstname": this.firstname,
-                    "lastname": this.lastname
+                    "role": "admin",
+                    "firstname": "femme",
+                    "lastname": "femme",
+                    "role": "muscle",
+            
                 });
                 if(response.code===200){
                 this.confirm.push("Inscription réussi");
+                 this.$router.push({name: 'login'});
             }
             }
-            
-            // Reception de la réponse et affichage
+            // // Reception de la réponse et affichage
         }
     }
 }
 </script>
+<style>
+fieldset{
+    display: flex;
+    justify-content: space-around;
+}
+.homme, .femme{
+    height: 7rem;
+    border-radius: 100px;
+    width: 6rem;
+    margin-top: 10%;
+    border: 1px solid black;
+}
+section.register-content {
+    text-align: center;
+    border: 1px solid black;
+    padding: 1%;
+    width: fit-content;
+    margin: auto;
+    background-color: #fff7e1bf;
+    margin-top: 2%;
+    border-radius: 6px;
+}
+.register-content div{
+    font-weight: bold;
+}
+.register-content input{
+    font-weight: bold;
+    border: unset;
+    border-radius: 8px;
+}
+</style>
